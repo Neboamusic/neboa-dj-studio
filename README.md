@@ -12,7 +12,7 @@
   ![Version](https://img.shields.io/badge/Release-0.4.1%20beta-282336)
   ![Privacy](https://img.shields.io/badge/Audio-local%20only-262036)
 
-  **[Launch browser demo](https://neboamusic.github.io/neboa-dj-studio/) · [Download beta release](https://github.com/Neboamusic/neboa-dj-studio/releases/tag/v0.4.1-beta.1) · [Read the docs](docs/ARCHITECTURE.md) · [Browse the code](https://github.com/Neboamusic/neboa-dj-studio)**
+  **[Launch DJ Studio](https://neboamusic.github.io/neboa-dj-studio/) · [Meet NEBØA](https://neboamusic.github.io/neboa-dj-studio/artist.html) · [Download beta release](https://github.com/Neboamusic/neboa-dj-studio/releases/tag/v0.4.1-beta.1) · [Contribute](CONTRIBUTING.md)**
 </div>
 
 ---
@@ -44,7 +44,9 @@ DJ Studio is a **local-first, open-source toolkit for DJs**. Build playlists fro
 
 > **Beta disclaimer:** Not an official AlphaTheta, Pioneer DJ or Rekordbox product. Finding `exportLibrary.db` does not imply reading or validating OneLibrary internals. Official hardware export and real-device testing are still required.
 
-**Documentation:** [Architecture & privacy](docs/ARCHITECTURE.md) · [FAQ](docs/FAQ.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Roadmap](ROADMAP-PUBLIC-BETA.md) · [Changelog](CHANGELOG.md) · [MIT License](LICENSE)
+**About the artist:** DJ Studio is created by **NEBØA (César López Caparrós)**, DJ and electronic music producer, **formerly known as Cesare il Galo**. His creative direction centers on dark, hypnotic, experimental techno, tension and detail. Read the [artist biography (ES/EN)](docs/ARTIST.md) or [visit the artist page](https://neboamusic.github.io/neboa-dj-studio/artist.html). Professional inquiries: [info@csarlopez.com](mailto:info@csarlopez.com).
+
+**Documentation:** [Artist](docs/ARTIST.md) · [Architecture & privacy](docs/ARCHITECTURE.md) · [FAQ](docs/FAQ.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Roadmap](ROADMAP-PUBLIC-BETA.md) · [Changelog](CHANGELOG.md) · [MIT License](LICENSE)
 
 ---
 

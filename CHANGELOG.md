@@ -1,5 +1,11 @@
 # DJ Studio by NEBØA — Cambios
 
+## Artista y documentación · 16 noviembre 2026
+
+- Presentación oficial de NEBØA como proyecto artístico de César López Caparrós, anteriormente Cesare il Galo, con biografía bilingüe y página de artista independiente.
+- Enlace a la página de artista desde DJ Studio; el campo de nombre de DJ y las sesiones siguen vacíos y genéricos para cada usuario.
+- Nuevas pruebas de integridad de identidad, navegación y protección de datos internos; sin dependencia de servicios externos para utilizar la aplicación.
+
 ## Open-source update · 16 noviembre 2026
 
 - Publicado el código fuente en GitHub, con licencia MIT, avatar visual original NEBØA, documentación de arquitectura, FAQ, guías de contribución y plantilla de pull requests.
