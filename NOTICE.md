@@ -1,6 +1,6 @@
 # Notices and third-party products
 
-DJ Studio by NEBØA is an independent open-source project.
+DJ Studio by NEBØA is an independent open-source project by César López Caparrós (artist name NEBØA, formerly Cesare il Galo).
 
 Rekordbox, Pioneer DJ, AlphaTheta, OneLibrary and relevant product and company names may be trademarks of their respective owners. This software is not developed, endorsed or supported by those vendors.
 
