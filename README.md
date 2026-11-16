@@ -11,6 +11,8 @@
   [![CI](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml)
   ![Version](https://img.shields.io/badge/Release-0.4.1%20beta-282336)
   ![Privacy](https://img.shields.io/badge/Audio-local%20only-262036)
+
+  **[Launch browser demo](https://neboamusic.github.io/neboa-dj-studio/) · [Read the docs](docs/ARCHITECTURE.md) · [Browse the code](https://github.com/Neboamusic/neboa-dj-studio)**
 </div>
 
 ---
@@ -28,7 +30,7 @@ DJ Studio is a **local-first, open-source toolkit for DJs**. Build playlists fro
 
 ### Quick start — run locally
 
-1. **Download the code** using GitHub's *Code → Download ZIP*, then extract it.
+1. **Try the [live browser demo](https://neboamusic.github.io/neboa-dj-studio/)** for playlists, Mix Coach and read-only USB inspection, or **download the code** with GitHub's *Code → Download ZIP* and extract it. The hosted demo does **not** run the FFmpeg engine or upload music.
 2. Open `index.html` in a browser. Try the **fictional sample playlist**; no music files are required.
 3. Import an official Rekordbox XML export or your own CSV/TSV/JSON when you're ready. The web UI works without a server.
 4. **Optional real loudness normalization:** install Python 3.10+, FFmpeg and FFprobe, then in the project folder run:
