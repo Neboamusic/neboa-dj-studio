@@ -32,7 +32,7 @@ DJ Studio is a **local-first, open-source toolkit for DJs**. Build playlists fro
 
 1. **Try the [live browser demo](https://neboamusic.github.io/neboa-dj-studio/)** for playlists, Mix Coach and read-only USB inspection, or **download the code** with GitHub's *Code → Download ZIP* and extract it. The hosted demo does **not** run the FFmpeg engine or upload music.
 2. Open `index.html` in a browser. Try the **fictional sample playlist**; no music files are required.
-3. Import an official Rekordbox XML export or your own CSV/TSV/JSON when you're ready. The web UI works without a server.
+3. Import an official Rekordbox XML export or your own CSV/TSV/JSON when you're ready. For a no-music trial, download the [fictional 140–145 BPM techno playlist](examples/fictional-hypnotic-techno.tsv) and import it directly. The web UI works without a server.
 4. **Optional real loudness normalization:** install Python 3.10+, FFmpeg and FFprobe, then in the project folder run:
 
    ```bash
@@ -59,7 +59,7 @@ La biblioteca, USB, Camelot y Mix Coach funcionan abriendo `index.html`, sin cue
 ## Funciones disponibles
 
 - **USB / PEN + Inspector ID3/FLAC**: conecta un pendrive y selecciona su carpeta raíz desde el navegador. Reconoce OneLibrary (`PIONEER/rekordbox/exportLibrary.db`), Device Library clásica (`export.pdb`), cuenta audios, compara tu sesión por nombres y avisa si faltan pistas, hay versiones distintas o archivos ambiguos. No lee ni escribe las bases binarias. Si el USB contiene un XML exportado de Rekordbox, puedes importarlo desde la propia pestaña USB; si no, crear una lista provisional a partir de nombres de audio, con BPM/key/cues desconocidos.
-- Importar **Rekordbox XML** oficial, seleccionar playlists anidadas o abrir CSV/TSV (columnas `artist, title, bpm, key, energy`, también nombres en español) y JSON de la app.
+- Importar **Rekordbox XML** oficial, seleccionar playlists anidadas o abrir CSV/TSV (columnas `artist, title, bpm, key, energy`, también nombres en español) y JSON de la app. Incluye una [playlist ficticia de techno hipnótico (140–145 BPM)](examples/fictional-hypnotic-techno.tsv) para probar el flujo sin música real.
 - Conservar el orden, mover pistas individualmente, ordenar por tempo o recomendar una secuencia **Camelot + BPM + energía si está disponible**.
 - Mix Coach: compatibilidad armónica, saltos de tempo y técnicas propuestas (siempre con necesidad de escucha).
 - Cue Lab: leer Hot Cues y Memory Cues desde el XML, más **ideas por compases** cuando existan BPM y duración; no son cues verificados ni se importan a Rekordbox.

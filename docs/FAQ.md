@@ -2,7 +2,7 @@
 
 ### Do I need Rekordbox?
 
-No. DJ Studio can import CSV/TSV/JSON playlists and includes a synthetic sample. For analysis of your Rekordbox collection, export XML through the official application.
+No. DJ Studio can import CSV/TSV/JSON playlists and includes a synthetic sample. For a shareable example, use the [fictional hypnotic-techno TSV playlist](../examples/fictional-hypnotic-techno.tsv); all names and metadata are invented and no audio is included. For analysis of your Rekordbox collection, export XML through the official application.
 
 ### Does it write to my USB or Rekordbox library?
 

@@ -5,6 +5,7 @@
 - Presentación oficial de NEBØA como proyecto artístico de César López Caparrós, anteriormente Cesare il Galo, con biografía bilingüe y página de artista independiente.
 - Enlace a la página de artista desde DJ Studio; el campo de nombre de DJ y las sesiones siguen vacíos y genéricos para cada usuario.
 - Nuevas pruebas de integridad de identidad, navegación y protección de datos internos; sin dependencia de servicios externos para utilizar la aplicación.
+- Ejemplo descargable de playlist ficticia (techno hipnótico 140–145 BPM), más regresión automatizada de importación y transición. No contiene canciones reales.
 
 ## Open-source update · 16 noviembre 2026
 
