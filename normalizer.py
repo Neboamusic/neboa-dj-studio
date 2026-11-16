@@ -241,7 +241,8 @@ def preflight_info(output_dir: Path) -> dict:
 def normalized_copy(path: Path, output_dir: Path, measured: dict,
                     target: float = DEFAULT_TARGET, fmt: str = "flac") -> dict:
     """Render an authorized new copy, verify, then publish. Original untouched."""
-    ffmpeg, _ = _ffmpeg_commands()
+    # Verify the source identity before checking optional encoder availability:
+    # rejecting a stale preview must work even on hosts without FFmpeg.
     if path.is_symlink():
         raise NormalizationError("No se normalizan enlaces simbólicos")
     before = inspect_audio(path)
@@ -251,6 +252,7 @@ def normalized_copy(path: Path, output_dir: Path, measured: dict,
     source_hash = measured.get("source_sha256")
     if not source_hash or sha256_file(path) != source_hash:
         raise NormalizationError("La huella SHA-256 del audio ha cambiado: vuelve a medirlo")
+    ffmpeg, _ = _ffmpeg_commands()
     plan = make_plan(measured, target, CEILING_DBTP, fmt)
     destination_dir = _output_dir(output_dir)
     _free_space_guard(destination_dir, _estimate_output_bytes(before, fmt) + path.stat().st_size // 4)

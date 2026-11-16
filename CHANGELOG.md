@@ -1,5 +1,12 @@
 # DJ Studio by NEBØA — Cambios
 
+## Open-source update · 16 noviembre 2026
+
+- Publicado el código fuente en GitHub, con licencia MIT, avatar visual original NEBØA, documentación de arquitectura, FAQ, guías de contribución y plantilla de pull requests.
+- Corregida la comprobación de integridad SHA-256: una pista cuyo contenido haya cambiado se rechaza **antes** de comprobar la disponibilidad opcional de FFmpeg. Esta mejora elimina una falsa dependencia en el job de seguridad CI y asegura un fallo temprano sin generar archivos.
+- La regresión de seguridad se ha reproducido además con FFmpeg ausente del `PATH`: 5/5 pruebas correctas. Las otras 77 pruebas siguen pasando localmente.
+- La aplicación continúa en beta; sin claims de certificación para XDJ/CDJ ni permisos para modificar bases de datos de otros productos.
+
 ## Beta 0.4.1 · Integridad SHA-256 y auditoría de normalización · 16 noviembre 2026
 
 - El motor registra la huella SHA-256 de cada fuente durante la medición. Si cambia antes o durante el renderizado, la copia se rechaza; la copia verificada lleva también su propia huella.

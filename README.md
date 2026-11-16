@@ -1,13 +1,50 @@
-# DJ Studio — by NEBØA
+<div align="center">
+  <img src="assets/neboa-avatar.jpg" alt="NEBØA — circular vinyl-inspired violet emblem" width="154" height="154">
 
-[![Open-source MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![DJ Studio checks](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml)
+  # DJ Studio by NEBØA
 
-**An independent, open-source DJ toolkit.** Plan harmonic transitions from Rekordbox XML/CSV, inspect USB music metadata with explicit permission, review audio levels, and create new LUFS-normalized copies using an optional Python + FFmpeg companion. Built for DJs who want control and privacy, not cloud uploads. **Beta 0.4.1** — no hardware compatibility guarantee.
+  **YOUR LIBRARY. YOUR SOUND. YOUR RULES.**
 
-- **Run locally:** open `index.html` for playlists, USB inspection and Mix Coach; see below for the optional FFmpeg companion.
-- **Protect originals:** audio, USB contents, OneLibrary files, tags and cues are never changed by the web app; rendering creates only new files after confirmation.
-- **Contribute:** see [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md) and the [MIT license](LICENSE).
-- **Independence:** not affiliated with AlphaTheta, Pioneer DJ or Rekordbox. No commercial recordings included; see [NOTICE.md](NOTICE.md).
+  <p>Open-source DJ prep · Harmonic set planning · Read-only USB inspection · Safe LUFS analysis</p>
+
+  [![MIT License](https://img.shields.io/badge/License-MIT-9b6dff)](LICENSE)
+  [![CI](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml)
+  ![Version](https://img.shields.io/badge/Release-0.4.1%20beta-282336)
+  ![Privacy](https://img.shields.io/badge/Audio-local%20only-262036)
+</div>
+
+---
+
+### Not another music-cloud platform.
+
+DJ Studio is a **local-first, open-source toolkit for DJs**. Build playlists from Rekordbox XML and CSV, explore Camelot/BPM transitions, review USB file quality and ID3/FLAC tags, and analyze loudness with an optional Python + FFmpeg engine. It gives you a plan and preserves your choices: **no music is uploaded, no device database is written, and original audio is never overwritten**.
+
+| Library & planning | USB & quality | Loudness & exports |
+| --- | --- | --- |
+| XML / CSV / JSON import | User-selected folders only | EBU R128 LUFS + true peak |
+| Camelot + BPM guidance | ID3 / FLAC tags, without edits | Conservative gain-only normalizing |
+| Mix Coach + proposed cues | OneLibrary file presence check | New, verified FLAC / WAV / MP3 copies |
+| Portable session CSV / JSON | Metadata quality report | SHA-256 checks and batch audit CSV |
+
+### Quick start — run locally
+
+1. **Download the code** using GitHub's *Code → Download ZIP*, then extract it.
+2. Open `index.html` in a browser. Try the **fictional sample playlist**; no music files are required.
+3. Import an official Rekordbox XML export or your own CSV/TSV/JSON when you're ready. The web UI works without a server.
+4. **Optional real loudness normalization:** install Python 3.10+, FFmpeg and FFprobe, then in the project folder run:
+
+   ```bash
+   python3 normalizer.py preflight --output-dir ~/DJStudio-Normalized
+   python3 normalizer.py serve --output-dir ~/DJStudio-Normalized
+   ```
+
+   Open <http://127.0.0.1:18766/>. The companion listens only on localhost, and creating an output copy still requires your explicit confirmation.
+
+> **Beta disclaimer:** Not an official AlphaTheta, Pioneer DJ or Rekordbox product. Finding `exportLibrary.db` does not imply reading or validating OneLibrary internals. Official hardware export and real-device testing are still required.
+
+**Documentation:** [Architecture & privacy](docs/ARCHITECTURE.md) · [FAQ](docs/FAQ.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Roadmap](ROADMAP-PUBLIC-BETA.md) · [Changelog](CHANGELOG.md) · [MIT License](LICENSE)
+
+---
 
 ## Guía en español
 

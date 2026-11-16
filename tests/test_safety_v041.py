@@ -56,8 +56,10 @@ class ReadOnlySafetyTests(unittest.TestCase):
                 "source_sha256":"0"*64}
             simulated={"bytes":source.stat().st_size,"duration_seconds":10.0}
             with patch.object(N,"inspect_audio",return_value=simulated):
-                with self.assertRaisesRegex(N.NormalizationError,"SHA-256"):
-                    N.normalized_copy(source,Path(folder)/"should-not-exist",measured)
+                # A stale-source rejection must not need FFmpeg to be installed.
+                with patch.object(N,"_ffmpeg_commands",side_effect=AssertionError("FFmpeg checked before source SHA-256")):
+                    with self.assertRaisesRegex(N.NormalizationError,"SHA-256"):
+                        N.normalized_copy(source,Path(folder)/"should-not-exist",measured)
             self.assertFalse((Path(folder)/"should-not-exist").exists())
 
 
