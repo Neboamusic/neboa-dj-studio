@@ -12,7 +12,7 @@
   ![Version](https://img.shields.io/badge/Release-0.4.1%20beta-282336)
   ![Privacy](https://img.shields.io/badge/Audio-local%20only-262036)
 
-  **[Launch browser demo](https://neboamusic.github.io/neboa-dj-studio/) · [Read the docs](docs/ARCHITECTURE.md) · [Browse the code](https://github.com/Neboamusic/neboa-dj-studio)**
+  **[Launch browser demo](https://neboamusic.github.io/neboa-dj-studio/) · [Download beta release](https://github.com/Neboamusic/neboa-dj-studio/releases/tag/v0.4.1-beta.1) · [Read the docs](docs/ARCHITECTURE.md) · [Browse the code](https://github.com/Neboamusic/neboa-dj-studio)**
 </div>
 
 ---
