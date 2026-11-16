@@ -1,5 +1,10 @@
 # DJ Studio by NEBØA — Cambios
 
+## Mejora de descubrimiento web · 16 noviembre 2026
+
+- Se añaden URLs canónicas y OpenGraph para compartir la aplicación y la biografía de NEBØA, un manifiesto local y sitemap con las dos páginas públicas. Sin servicios externos ni rastreadores.
+- Tres pruebas nuevas de metadatos, integridad de rutas y manifiesto; no afecta al render de audio ni al acceso a bibliotecas originales.
+
 ## Beta v0.4.2-beta.1 · 16 noviembre 2026 · Historial reversible y nueva descripción de artista
 
 - Controles accesibles **Deshacer / Rehacer** para las últimas 30 reordenaciones: propuestas armónicas, ordenaciones por BPM/energía, cambios manuales y restauración. Los cambios se aplican en memoria; sin escritura en Rekordbox, USB o pistas.

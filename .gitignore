@@ -21,6 +21,7 @@ coverage/
 *.db
 *.pdb
 *.xml
+!sitemap.xml
 *.csv
 *.zip
 *.7z
