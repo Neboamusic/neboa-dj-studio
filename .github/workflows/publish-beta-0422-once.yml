@@ -1,0 +1,35 @@
+# One-shot official GitHub release publication. Uses NEBOA repository's
+# ephemeral token only. Remove immediately after verified publishing.
+name: Publish NEBOA 0.4.2 beta2 once
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-beta-0422-once.yml"
+permissions:
+  contents: write
+jobs:
+  release:
+    if: github.repository == 'Neboamusic/neboa-dj-studio'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create GitHub prerelease idempotently
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag='v0.4.2-beta.2'
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Already published, no duplicate: $tag"
+            exit 0
+          fi
+          gh release create "$tag" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --prerelease \
+            --title "NEBØA DJ Studio 0.4.2-beta.2 — Verified web update" \
+            --notes-file docs/RELEASE-v0.4.2-beta.2.md
+          gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json url,isPrerelease,tagName
