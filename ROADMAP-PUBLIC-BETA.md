@@ -12,15 +12,17 @@
 - Motor local Python+FFmpeg opcional con medición profesional EBU R128 LUFS/true peak, normalización lineal gain-only, techo de pico, copias verificadas FLAC/WAV/MP3 y lote de hasta 20 pistas con doble confirmación.
 - HTTP companion estrictamente loopback, token de sesión por proceso, staging_id de pista, reserva preventiva de disco, sin cambios en OneLibrary ni en originales.
 - CSV/JSON descargables, sin rutas ni audio, UI responsive.
-- 82 pruebas automatizadas superadas (64 JS + 13 Python/FFmpeg con audio sintético + 5 Python de seguridad), entre motor, importaciones, etiquetas, auditoría, interfaz y normalizador. Control de datos privados del paquete. Panel USB v0.3 con estado sin unidad visualmente comprobado en Chrome; su estado con un USB físico queda pendiente.
+- 95 pruebas automatizadas superadas (77 JS + 13 Python/FFmpeg con audio sintético + 5 Python de seguridad), entre motor, importaciones, etiquetas, auditoría, interfaz, normalizador y descubrimiento web. Control de datos privados del paquete. Panel USB v0.3 con estado sin unidad visualmente comprobado en Chrome; su estado con un USB físico queda pendiente.
 - Sin cuentas, almacenamiento cloud ni dependencias externas.
 
 ## 1.1. Beta 0.4.1 [VALIDACIÓN AUTOMATIZADA COMPLETA]
 
 - Preflight CLI sin escrituras, doble comprobación SHA-256 y reporte CSV por lote sin rutas privadas.
-- Superadas 64 pruebas JS, 13 de render Python con audio sintético y 5 de seguridad Python. Sigue pendiente la validación con hardware DJ, sesiones reales y más navegadores. El repositorio Git local está preparado, pero no existe despliegue remoto ni publicación en GitHub personal por falta de autenticación. NO asumir compatibilidad CDJ/XDJ sin prueba física.
+- Superadas 64 pruebas JS, 13 de render Python con audio sintético y 5 de seguridad Python. Sigue pendiente la validación con hardware DJ, sesiones reales y más navegadores. El repositorio público y GitHub Pages ya están publicados en la cuenta personal de NEBØA, con Release beta2 verificado, pero **no existe despliegue del normalizador en el nodo remoto** por falta de autenticación SSH. NO asumir compatibilidad CDJ/XDJ sin prueba física.
 
-## 2. Pre-release [PENDIENTE]
+## 2. Validación física para uso en cabina [PENDIENTE]
+
+- Release beta pública y demo web ya operativas. **PENDIENTE** probar con USB y hardware DJ reales antes de considerar compatibilidad demostrada.
 
 - Prueba con USB físico (una unidad seleccionada por el DJ), verificación de lectura real y posterior expulsión segura fuera de esta app.
 - Pruebas de importación con bibliotecas de tres DJs distintos y playlists anidadas.

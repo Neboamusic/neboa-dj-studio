@@ -1,5 +1,11 @@
 # DJ Studio by NEBØA — Cambios
 
+## Beta v0.4.2-beta.2 · 16 noviembre 2026 · Web y documentación verificadas
+
+- Publicación del Release oficial beta.2 con sitemap XML, URL canónica, Open Graph de las dos páginas, manifiesto local y nuevo conjunto de regresión.
+- **95/95 pruebas automatizadas correctas**: 77 JavaScript, 5 Python de seguridad y 13 Python/FFmpeg con audio sintético. GitHub Actions y Pages verificados.
+- Sin audio comercial, datos privados, integraciones corporativas ni cambios en bibliotecas o USB. Sigue pendiente la validación física del hardware DJ y el acceso autorizado al nodo remoto.
+
 ## Mejora de descubrimiento web · 16 noviembre 2026
 
 - Se añaden URLs canónicas y OpenGraph para compartir la aplicación y la biografía de NEBØA, un manifiesto local y sitemap con las dos páginas públicas. Sin servicios externos ni rastreadores.

@@ -9,10 +9,10 @@
 
   [![MIT License](https://img.shields.io/badge/License-MIT-9b6dff)](LICENSE)
   [![CI](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml)
-  ![Version](https://img.shields.io/badge/Release-v0.4.2--beta.1-282336)
+  ![Version](https://img.shields.io/badge/Release-v0.4.2--beta.2-282336)
   ![Privacy](https://img.shields.io/badge/Audio-local%20only-262036)
 
-  **[Launch DJ Studio](https://neboamusic.github.io/neboa-dj-studio/) · [Meet NEBØA](https://neboamusic.github.io/neboa-dj-studio/artist.html) · [Download latest beta](https://github.com/Neboamusic/neboa-dj-studio/releases/tag/v0.4.2-beta.1) · [Contribute](CONTRIBUTING.md)**
+  **[Launch DJ Studio](https://neboamusic.github.io/neboa-dj-studio/) · [Meet NEBØA](https://neboamusic.github.io/neboa-dj-studio/artist.html) · [Download latest beta](https://github.com/Neboamusic/neboa-dj-studio/releases/tag/v0.4.2-beta.2) · [Contribute](CONTRIBUTING.md)**
 </div>
 
 ---
