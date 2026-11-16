@@ -1,0 +1,34 @@
+# One-time, repository-scoped public beta release. No external credentials.
+name: Publish NEBOA 0.4.2 beta once
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/release-042-once.yml"
+permissions:
+  contents: write
+jobs:
+  release:
+    if: github.repository == 'Neboamusic/neboa-dj-studio'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish existing tag as GitHub pre-release once
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag='v0.4.2-beta.1'
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release already exists: $tag"
+            exit 0
+          fi
+          gh release create "$tag" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --prerelease \
+            --title "NEBØA DJ Studio v0.4.2-beta.1 — Reversible set planning" \
+            --notes-file docs/RELEASE-v0.4.2-beta.1.md
+          gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json url,isPrerelease,tagName
