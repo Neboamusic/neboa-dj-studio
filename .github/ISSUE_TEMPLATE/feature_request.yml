@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest an improvement to DJ Studio.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: DJ workflow or problem
+      description: Describe the problem with hypothetical examples only.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Privacy and hardware implications
+      description: Would this affect original audio, USB devices, cue data or network access?
+    validations:
+      required: true

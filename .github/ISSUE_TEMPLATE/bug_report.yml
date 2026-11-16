@@ -1,0 +1,35 @@
+name: Bug report
+description: Report a reproducible problem without uploading private music or DJ library data.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Use synthetic examples. Never attach licensed recordings, personal playlists, credentials or USB/OneLibrary databases."
+  - type: textarea
+    id: summary
+    attributes:
+      label: What went wrong?
+      description: Please describe the observed behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide only synthetic data and safe, repeatable steps.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "DJ Studio version, browser, OS; FFmpeg if relevant"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true

@@ -1,0 +1,56 @@
+# NEBØA DJ Studio — personal GitHub CI. No corporate credentials, audio, or deploy.
+name: DJ Studio checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: neboa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  js:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: JavaScript syntax and regression suite
+        run: |
+          node --check core.js
+          node --check usb.js
+          node --check tags.js
+          node --check normalizer-ui.js
+          node --check app.js
+          node --test tests/*.test.js
+  python-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate engine and safety tests
+        run: |
+          python -m py_compile normalizer.py
+          python -m unittest discover -s tests -p test_safety_v041.py -v
+  python-audio-synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Ensure FFmpeg is available
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y ffmpeg
+          fi
+      - name: Run real-FFmpeg regressions with synthetic audio only
+        run: python -m unittest discover -s tests -p test_normalizer.py -v

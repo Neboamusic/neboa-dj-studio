@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:; connect-src 'self'; img-src 'self' data: blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>DJ STUDIO — by NEBØA</title>
+  <meta name="description" content="Planifica sesiones DJ: armonía Camelot, BPM, Hot Cues y análisis local de audio. Sin subir archivos.">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="core.js"></script>
+  <script defer src="usb.js"></script>
+  <script defer src="tags.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="normalizer-ui.js"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" aria-label="Configuración de sesión">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">Ø</div>
+      <div><div class="brand-overline">NEBØA PRESENTS</div><div class="brand-word">DJ STUDIO<span>.</span></div></div>
+    </div>
+    <div class="edition"><span class="small-dot"></span> LOCAL-FIRST BETA <span class="edition-number">04</span></div>
+    <div class="side-section">
+      <label for="djName" class="side-label">PERFIL DE DJ</label>
+      <input id="djName" class="input" type="text" maxlength="80" placeholder="Tu nombre artístico" autocomplete="off" value="">
+      <p class="micro">Cada DJ usa su propia colección. Nada se comparte ni sube automáticamente.</p>
+    </div>
+    <div class="side-section">
+      <div class="side-label">IMPORTAR BIBLIOTECA</div>
+      <label class="dropzone" id="dropzone" for="fileInput">
+        <span class="drop-icon" aria-hidden="true">↥</span>
+        <strong>Seleccionar archivo</strong>
+        <span>Rekordbox XML o lista CSV/TSV</span>
+        <span class="drop-badge">TAMBIÉN ARRASTRAR Y SOLTAR</span>
+      </label>
+      <input id="fileInput" class="sr-only" type="file" accept=".xml,.csv,.tsv,.txt,.json">
+      <button id="demoBtn" class="text-btn" type="button">Probar con biblioteca ficticia</button>
+      <p id="importFeedback" class="feedback" role="status" aria-live="polite">Todavía no has importado pistas.</p>
+    </div>
+    <div class="side-section usb-side-section">
+      <div class="side-label">PENDRIVE / USB</div>
+      <label class="usb-folder-label" id="usbFolderLabel" for="usbFolderInput">
+        <span aria-hidden="true">◈</span> Seleccionar carpeta del pen
+      </label>
+      <input id="usbFolderInput" class="sr-only" type="file" webkitdirectory directory multiple>
+      <p class="micro">Conecta el USB al ordenador y selecciona su carpeta raíz. El navegador requiere tu permiso para examinarlo.</p>
+      <p id="usbSidebarStatus" class="feedback" role="status" aria-live="polite">Sin USB seleccionado.</p>
+      <button type="button" id="usbPanelShortcut" class="text-btn">Ver diagnóstico del USB</button>
+    </div>
+    <div class="side-section">
+      <label for="playlistSelect" class="side-label">PLAYLIST</label>
+      <select id="playlistSelect" class="input" disabled><option>Importa un XML o CSV</option></select>
+      <div id="librarySummary" class="sidebar-stat">0 pistas disponibles</div>
+    </div>
+    <div class="side-section">
+      <div class="side-label">REORDENAR SESIÓN</div>
+      <label for="sortMode" class="sr-only">Criterio de orden</label>
+      <select id="sortMode" class="input">
+        <option value="harmonic">Flujo armónico sugerido</option>
+        <option value="original">Orden de la playlist</option>
+        <option value="bpm-asc">BPM ascendente</option>
+        <option value="bpm-desc">BPM descendente</option>
+        <option value="energy-desc">Energía descendente*</option>
+      </select>
+      <label class="checkline"><input type="checkbox" id="preserveFirst" checked> Mantener el primer tema</label>
+      <div class="button-row"><button type="button" id="applySort" class="primary-btn" disabled>Proponer orden</button><button type="button" id="resetOrder" class="secondary-btn" disabled>Restaurar</button></div>
+      <p class="micro">*Solo si existe dato de energía real. La recomendación nunca escribe la playlist original.</p>
+    </div>
+    <div class="side-spacer"></div>
+    <div class="sidebar-foot"><span class="privacy-icon">◎</span><div><strong>PRIVACIDAD LOCAL</strong><span>Sin cuenta · Sin nube · Audio solo local</span></div></div>
+  </aside>
+
+  <div class="workspace">
+    <header class="topbar">
+      <div class="breadcrumbs"><span>WORKSPACE</span><span class="chevron">/</span><strong id="activePlaylistName">Nueva sesión</strong></div>
+      <div class="top-actions"><span class="tag tag-muted" id="modeTag">SIN IMPORTAR</span><span class="connection"><span class="online-indicator"></span> PROCESAMIENTO LOCAL</span></div>
+    </header>
+    <main class="content">
+      <div class="page-heading">
+        <div><div class="eyebrow">PREPARACIÓN MUSICAL PROFESIONAL <span class="line"></span> VERSIÓN BETA</div>
+          <h1>Controla <em>cada transición.</em></h1>
+          <p class="deck">Organiza, armoniza y prepara tu sesión con datos reales, sin modificar los archivos originales.</p>
+        </div>
+        <div class="heading-pill">REKORDBOX XML <span>+</span> CSV <span>+</span> AUDIO LOCAL</div>
+      </div>
+      <div class="kpis" aria-label="Indicadores de la sesión">
+        <div class="kpi"><span class="kpi-label">PISTAS EN LA SESIÓN</span><div class="kpi-main" id="kpiTracks">00</div><span class="kpi-foot">Lista en memoria</span></div>
+        <div class="kpi"><span class="kpi-label">RANGO DE TEMPO</span><div class="kpi-main kpi-compact" id="kpiBpm">—</div><span class="kpi-foot">BPM conocidos</span></div>
+        <div class="kpi"><span class="kpi-label">CUES EXISTENTES</span><div class="kpi-main" id="kpiCues">00</div><span class="kpi-foot">Marcadores leídos del XML</span></div>
+        <div class="kpi kpi-accent"><span class="kpi-label">ENLACES A REVISAR</span><div class="kpi-main" id="kpiRisks">00</div><span class="kpi-foot">Camelot o BPM desconocidos</span></div>
+      </div>
+
+      <div class="tabbar" role="tablist" aria-label="Herramientas">
+        <button class="tab active" type="button" role="tab" data-tab="set" aria-selected="true">01 <span>SESIÓN</span></button>
+        <button class="tab" type="button" role="tab" data-tab="mix" aria-selected="false">02 <span>MIX COACH</span></button>
+        <button class="tab" type="button" role="tab" data-tab="levels" aria-selected="false">03 <span>NIVELES</span></button>
+        <button class="tab" type="button" role="tab" data-tab="normalize" aria-selected="false">04 <span>NORMALIZAR</span></button>
+        <button class="tab" type="button" role="tab" data-tab="usb" aria-selected="false">05 <span>USB / PEN</span></button>
+        <button class="tab" type="button" role="tab" data-tab="export" aria-selected="false">06 <span>EXPORTAR</span></button>
+      </div>
+      <section class="tab-panel" id="panel-set" role="tabpanel">
+        <div class="panel-heading"><div><h2>Orden de reproducción</h2><p>Selecciona una pista para revisar sus datos, cues y sugerencias.</p></div>
+        <input id="searchInput" class="input search" type="search" placeholder="Buscar título o artista…" aria-label="Filtrar pistas">
+        </div>
+        <div class="panel-layout">
+          <div class="table-card"><div class="table-scroll"><table><thead><tr><th>#</th><th>PISTA</th><th>BPM</th><th>CAMELOT</th><th>ENERGÍA</th><th>CAMBIO</th></tr></thead><tbody id="tracksBody"></tbody></table></div>
+            <div class="table-bottom"><span id="tableCount">Sin pistas</span><span>ORDEN PROPUESTO · NO MODIFICA REKORDBOX</span></div></div>
+          <aside id="trackDetail" class="inspector" aria-label="Detalles de la pista">
+            <div class="inspector-label">INSPECTOR</div><div class="empty-inspector"><div class="empty-glyph">◎</div><p>Importa una lista y selecciona una pista.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-mix" role="tabpanel" hidden>
+        <div class="panel-heading"><div><h2>Mix Coach</h2><p>Enlaces Camelot, saltos de BPM y técnicas para practicar en cabina.</p></div><div class="subtle" id="mixCount">0 TRANSICIONES</div></div>
+        <div class="mix-grid"><div id="mixRows" class="mix-list"></div><aside id="mixDetail" class="inspector mix-inspector"><div class="inspector-label">TÉCNICA</div><div class="empty-inspector"><div class="empty-glyph">↝</div><p>Selecciona un enlace para ver la propuesta de mezcla.</p></div></aside></div>
+        <p class="disclaimer">Las relaciones Camelot y BPM son orientativas. Ningún algoritmo garantiza una transición musicalmente correcta sin escuchar ambas pistas.</p>
+      </section>
+
+      <section class="tab-panel" id="panel-levels" role="tabpanel" hidden>
+        <div class="panel-heading"><div><h2>Niveles & audio</h2><p>Diagnóstico local de RMS y pico de muestra. Sin recodificar ni normalizar.</p></div><div class="subtle" id="audioCount">0 MEDICIONES</div></div>
+        <div class="levels-grid">
+          <div class="audio-card">
+            <div class="inspector-label">MEDIR UNA PISTA</div>
+            <h3 id="audioTrackName">Selecciona una pista en Sesión</h3>
+            <p>Escoge el archivo de audio correspondiente. El navegador lo analiza en tu dispositivo, sin subirlo.</p>
+            <label class="file-picker" for="audioInput">Seleccionar audio para analizar</label>
+            <input id="audioInput" type="file" accept="audio/*,.mp3,.wav,.flac,.aiff,.m4a" class="sr-only">
+            <button id="audioFromUSB" class="secondary-btn" type="button" disabled>Medir audio del pen seleccionado</button>
+            <p id="audioStatus" class="feedback" role="status" aria-live="polite">Sin medición.</p>
+            <div id="audioResults" class="audio-results"></div>
+            <div class="safety-note"><strong>IMPORTANTE</strong><p>RMS y pico de muestra no son LUFS ni true peak. Para ajustes definitivos se necesita una medición BS.1770 y comprobar medidores de la mesa DJ.</p></div>
+          </div>
+          <div class="audio-card audio-explainer">
+            <div class="inspector-label">CONTROL DE GANANCIA</div>
+            <h3>No igualamos volumen a ciegas.</h3>
+            <div class="measure-list">
+              <div><span class="measure-number">01</span><div><strong>Revisar integridad</strong><p>Comprobar que no haya cortes ni errores de decodificación.</p></div></div>
+              <div><span class="measure-number">02</span><div><strong>Comparar sonoridad</strong><p>RMS aquí; LUFS y true peak en el analizador de escritorio cuando esté disponible.</p></div></div>
+              <div><span class="measure-number">03</span><div><strong>Verificar en cabina</strong><p>Ajustar TRIM, EQ y salida máster en la DJM-V10 u otra mesa.</p></div></div>
+            </div>
+            <p class="disclaimer">Esta beta no altera ganancias, etiquetas, ni ficheros de audio.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-normalize" role="tabpanel" hidden>
+        <div class="panel-heading">
+          <div><h2>Normalización de audio · LUFS + true peak</h2>
+            <p>Dos pasos: medir y revisar la propuesta; después crear una copia verificada si tú lo autorizas.</p>
+          </div><div class="subtle" id="normMode">MOTOR SIN CONECTAR</div>
+        </div>
+        <div class="normalize-intro">
+          <span class="normalize-bullet">SIN COMPRESIÓN DINÁMICA</span>
+          <span class="normalize-bullet">COPIA NUEVA</span>
+          <span class="normalize-bullet">VERIFICACIÓN FINAL</span>
+          <span class="normalize-bullet">REKORDBOX INTACTO</span>
+        </div>
+        <div class="normalize-grid">
+          <div class="normalize-card">
+            <div class="inspector-label">01 · SELECCIONA Y MIDE</div>
+            <h3>Sonoridad real de cada tema</h3>
+            <p>Elige un archivo local para medir LUFS integrado y pico verdadero mediante FFmpeg. 
+              El motor trabaja en tu ordenador (127.0.0.1); nunca envía audio a la nube.</p>
+            <label for="normInput" class="file-picker">Seleccionar audio para normalizar</label>
+            <input id="normInput" type="file" accept=".mp3,.flac,.wav,.aif,.aiff,.m4a,.aac,audio/*" class="sr-only">
+            <p id="normFileName" class="normalize-subtitle">Ninguna pista seleccionada.</p>
+            <button id="normAnalyze" class="primary-btn" type="button" disabled>Medir LUFS y true peak</button>
+            <p id="normStatus" class="feedback" role="status" aria-live="polite">Conecta el motor FFmpeg local para comenzar.</p>
+            <div id="normMeasurements" class="normalize-metrics" aria-label="Mediciones de sonoridad"></div>
+          </div>
+          <div class="normalize-card">
+            <div class="inspector-label">02 · REVISA LA GANANCIA</div>
+            <h3>Ajuste seguro, sin aplastar la música</h3>
+            <p>El objetivo determina la sonoridad deseada. Si el true peak impide alcanzarla,
+              se priorizan la seguridad y la dinámica original.</p>
+            <div class="normalize-fields">
+              <label for="normTarget">SONORIDAD OBJETIVO
+                <select id="normTarget" class="input">
+                  <option value="-16">−16 LUFS · suave</option>
+                  <option value="-14">−14 LUFS · equilibrado</option>
+                  <option value="-12">−12 LUFS · club con margen</option>
+                  <option value="-11" selected>−11 LUFS · DJ (predeterminado)</option>
+                  <option value="-10">−10 LUFS · club alto</option>
+                  <option value="-9">−9 LUFS · alto (vigilar pico)</option>
+                </select>
+              </label>
+              <label for="normFormat">FORMATO DE COPIA
+                <select id="normFormat" class="input">
+                  <option value="flac">FLAC 24 bit · sin nueva pérdida</option>
+                  <option value="wav">WAV 24 bit · gran tamaño</option>
+                  <option value="mp3">MP3 320 kbps · nueva compresión</option>
+                </select>
+              </label>
+            </div>
+            <div id="normPlan" class="normalize-metrics"></div>
+            <div id="normWarnings" class="normalize-warnings" aria-live="polite"></div>
+            <button id="normRender" class="primary-btn" type="button" disabled>Crear copia normalizada (no sobrescribir)</button>
+            <p class="micro">El audio original y sus Hot Cues permanecen intactos. Las copias se guardan fuera del USB.</p>
+          </div>
+        </div>
+        <div class="normalize-batch">
+          <div class="inspector-label">NORMALIZACIÓN POR LOTES · 20 TEMAS POR OPERACIÓN</div>
+          <h3>Prepara un grupo completo sin tocar originales</h3>
+          <p>Selecciona hasta 20 archivos. Primero puedes medirlos todos sin generar copias.
+            Solo el botón «Crear copias» inicia la conversión, pista por pista y con comprobación de espacio.</p>
+          <label class="file-picker" for="normBatchInput">Seleccionar varios audios</label>
+          <input id="normBatchInput" type="file" multiple
+            accept=".mp3,.flac,.wav,.aif,.aiff,.m4a,.aac,audio/*" class="sr-only">
+          <div class="normalize-batch-buttons">
+            <button id="normBatchAnalyze" type="button" class="secondary-btn" disabled>Medir lote completo</button>
+            <button id="normBatchRender" type="button" class="primary-btn" disabled>Crear copias normalizadas del lote</button>
+            <button id="normBatchCancel" type="button" class="secondary-btn" disabled>Detener después de la pista actual</button>
+            <button id="normBatchCsv" type="button" class="secondary-btn" disabled>Descargar auditoría CSV</button>
+          </div>
+          <p id="normBatchStatus" class="feedback" role="status" aria-live="polite">Sin lote seleccionado.</p>
+          <div class="normalize-batch-list" id="normBatchRows" aria-label="Estado de normalización por lotes"></div>
+          <p class="micro">El lote usa el objetivo LUFS y el formato elegidos arriba. No escribe en el pen.
+            Si falta espacio, se detiene y conserva las copias individuales ya verificadas. El CSV documenta mediciones y resultados, pero nunca incluye rutas privadas.</p>
+        </div>
+        <div id="normOutput" class="normalize-output" hidden aria-live="polite">
+          <div class="inspector-label">03 · RESULTADO VERIFICADO</div>
+          <h3>Copia generada y comprobada</h3>
+          <p id="normOutputMetrics"></p>
+          <code id="normOutputPath"></code>
+          <button id="normCopyPath" class="secondary-btn" type="button">Copiar ruta</button>
+        </div>
+        <div id="normSetup" class="normalize-setup">
+          <div class="inspector-label">INICIAR MOTOR LOCAL (SIN CUENTAS)</div>
+          <p>Para medir LUFS reales y generar copias, inicia el complemento de escritorio desde esta misma carpeta.
+             En macOS puedes abrir <code>Iniciar Normalizador.command</code>, o ejecutar
+             <code>python3 normalizer.py serve</code>.
+             Después abre <strong>http://127.0.0.1:18766/</strong>.</p>
+          <p>La versión que se abre directamente con <code>index.html</code> conserva las funciones de biblioteca,
+            USB y Mix Coach, pero no puede ejecutar FFmpeg por las restricciones del navegador.</p>
+        </div>
+        <div class="release-note">
+          AUDIO · Normalización con ganancia lineal y techo −1,5 dBTP, no una compresión de volumen.
+          Se limita la subida máxima a +6 dB y se verifica el resultado con FFmpeg antes de publicar la copia.
+          Un MP3 convertido a FLAC no recupera calidad perdida. No se escribe ni exporta OneLibrary.
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-usb" role="tabpanel" hidden>
+        <div class="panel-heading"><div><h2>Dispositivos & OneLibrary</h2>
+          <p>Conecta un pendrive y selecciona su carpeta. Inventario local en modo solo lectura.</p></div>
+          <span class="subtle" id="usbMode">USB NO SELECCIONADO</span>
+        </div>
+        <div class="usb-overview" aria-label="Estado del dispositivo">
+          <div class="usb-metric"><small>UNIDAD SELECCIONADA</small><strong id="usbVolumeName">—</strong><span>No se detectan discos automáticamente desde el navegador</span></div>
+          <div class="usb-metric"><small>BIBLIOTECA PIONEER</small><strong id="usbLibraryKind">—</strong><span>OneLibrary / Device Library</span></div>
+          <div class="usb-metric"><small>ARCHIVOS DE AUDIO</small><strong id="usbAudioCount">0</strong><span id="usbAudioSize">Sin analizar</span></div>
+          <div class="usb-metric"><small>COINCIDENCIAS CON LA SESIÓN</small><strong id="usbMatchCount">—</strong><span id="usbMatchStatus">Selecciona una sesión y un USB</span></div>
+        </div>
+        <div class="usb-workspace">
+          <div class="usb-card">
+            <div class="inspector-label">ARCHIVOS DE LA UNIDAD</div>
+            <div id="usbNoDrive" class="usb-no-drive">
+              <div class="usb-empty-icon" aria-hidden="true">◈</div>
+              <h3>Inserta tu pendrive</h3>
+              <p>Elige su carpeta raíz usando «Seleccionar carpeta del pen», en la barra lateral.
+                Selecciona la unidad correcta desde el diálogo de carpetas de tu sistema.</p>
+              <p>La app no escribe en el USB y tampoco formatea, convierte ni modifica la base OneLibrary.</p>
+            </div>
+            <div id="usbMountedView" hidden>
+              <p id="usbReadOnlyState" class="usb-status"></p>
+              <div class="usb-action-row">
+                <button class="primary-btn" type="button" id="usbCreatePlaylist" disabled>Crear lista provisional desde audio</button>
+                <select id="usbXmlSelect" class="input usb-xml-select" aria-label="XML del USB" disabled><option>Sin XML compatible</option></select>
+                <button class="secondary-btn" type="button" id="usbLoadXML" disabled>Importar XML del USB</button>
+                <button class="secondary-btn" type="button" id="usbForget" disabled>Olvidar esta unidad</button>
+              </div>
+              <div class="usb-tags-panel" aria-label="Etiquetas y calidad de los archivos">
+                <div class="inspector-label">METADATOS REALES · ID3 MP3 / FLAC VORBIS</div>
+                <p>Lee título, artista, álbum, BPM y key que ya estén escritos en los audios. No analiza música, no inventa datos ni modifica el pen.</p>
+                <div class="usb-action-row">
+                  <button type="button" id="usbReadTags" class="primary-btn" disabled>Leer etiquetas de audios</button>
+                  <button type="button" id="usbCancelTags" class="secondary-btn" disabled>Cancelar lectura</button>
+                  <button type="button" id="usbExportAudit" class="secondary-btn" disabled>Informe de calidad CSV</button>
+                </div>
+                <p id="usbTagProgress" class="feedback" aria-live="polite">Selecciona una carpeta para leer etiquetas.</p>
+                <div id="usbHealthSummary" class="usb-health-summary"></div>
+                <div id="usbHealthWarnings" class="usb-health-warnings" aria-live="polite"></div>
+              </div>
+              <div id="usbWarnings" class="usb-warnings" aria-live="polite"></div>
+              <div class="usb-file-list">
+                <div class="usb-file-header"><span>ARCHIVOS ENCONTRADOS</span><span id="usbFileCount">0</span></div>
+                <div id="usbFileRows" class="usb-file-rows"></div>
+              </div>
+            </div>
+          </div>
+          <aside class="usb-card usb-guide">
+            <div class="inspector-label">SEGURIDAD DEL PEN</div>
+            <h3>Inspección, nunca modificación.</h3>
+            <div class="measure-list">
+              <div><span class="measure-number">01</span><div><strong>Detectar</strong><p>Reconocer presencia de OneLibrary y archivos de audio, sin leer ni escribir la base Pioneer.</p></div></div>
+              <div><span class="measure-number">02</span><div><strong>Comparar</strong><p>Comprobar qué pistas de tu sesión coinciden con archivos del pen. Es una comparación aproximada por nombre.</p></div></div>
+              <div><span class="measure-number">03</span><div><strong>Analizar etiquetas y preparar</strong><p>Leer ID3 o FLAC cuando tú lo solicites, identificar BPM y tonalidad existentes y proponer un orden. Los Hot Cues requieren XML.</p></div></div>
+              <div><span class="measure-number">04</span><div><strong>Exportar y expulsar</strong><p>La exportación OneLibrary y la expulsión segura se realizan en Rekordbox y el sistema operativo, no desde esta página web.</p></div></div>
+            </div>
+          </aside>
+        </div>
+        <div class="release-note">ETIQUETAS · La lectura ID3/FLAC no comprueba que el BPM o la tonalidad sean musicalmente correctos. Una comprobación de tamaño no equivale a un test completo de decodificación. Nada se escribe al USB.</div>
+        <div class="release-note">ONE LIBRARY · La presencia de <code>exportLibrary.db</code> confirma su archivo, no demuestra que la playlist, sus cues o los datos del USB sean correctos. Este escáner no abre bases SQLite.</div>
+      </section>
+
+      <section class="tab-panel" id="panel-export" role="tabpanel" hidden>
+        <div class="panel-heading"><div><h2>Tu sesión, portable</h2><p>Descarga un plan de reproducción sin rutas de disco ni archivos musicales.</p></div></div>
+        <div class="export-grid">
+          <div class="export-card"><div class="export-icon">⇣</div><h3>Orden de reproducción</h3><p>CSV con artistas, títulos, BPM, Camelot y notas de transición.</p><button id="exportCSV" class="primary-btn" type="button" disabled>Exportar CSV</button></div>
+          <div class="export-card"><div class="export-icon">{ }</div><h3>Sesión JSON</h3><p>Datos portables para reabrir el set en otra instalación. Nunca incluye rutas locales.</p><button id="exportJSON" class="primary-btn" type="button" disabled>Exportar JSON</button></div>
+          <div class="export-card"><div class="export-icon">⌑</div><h3>Plan de Hot Cues</h3><p>Cues existentes y estimaciones por compases. Solo una propuesta, no cues escritos en Rekordbox.</p><button id="exportCues" class="primary-btn" type="button" disabled>Exportar propuestas</button></div>
+          <div class="export-card"><div class="export-icon">↗</div><h3>OneLibrary</h3><p>Para CDJ-3000X/XDJ-AZ, exporta los temas desde Rekordbox u otro software con soporte OneLibrary documentado. Esta app no escribe bases Pioneer.</p><a href="https://rekordbox.com/es/support/faq/onelibrary-7/" target="_blank" rel="noopener noreferrer" class="link-arrow">Guía oficial OneLibrary ↗</a></div>
+        </div>
+        <div class="release-note"><span>NOTA DE COMPATIBILIDAD</span> Este software prepara y analiza listas: no crea archivos de exportación nativos OneLibrary. El último paso debe realizarse en software DJ compatible y validarse en el reproductor.</div>
+      </section>
+    </main>
+    <footer><span>DJ STUDIO — BY NEBØA · BETA</span><span id="footerState">Tu colección permanece en tu dispositivo</span><span>SIN NUBE · MOTOR LOCAL OPCIONAL</span></footer>
+  </div>
+</div>
+</body></html>
