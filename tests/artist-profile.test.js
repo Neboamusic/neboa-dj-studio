@@ -8,7 +8,7 @@ const read=rel=>fs.readFileSync(path.join(root,rel),"utf8");
 
 test("artist identity is consistent between the public page and artist profile",()=>{
   const page=read("artist.html"),profile=read("docs/ARTIST.md");
-  for(const s of ["NEBØA","César López Caparrós","Cesare il Galo"]){
+  for(const s of ["NEBØA","César López","Cesare il Galo","España"]){
     assert.ok(page.includes(s),"artist.html missing "+s);
     assert.ok(profile.includes(s),"ARTIST.md missing "+s);
   }

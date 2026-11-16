@@ -27,7 +27,7 @@
       <div class="brand-mark" aria-hidden="true">Ø</div>
       <div><div class="brand-overline">NEBØA PRESENTS</div><div class="brand-word">DJ STUDIO<span>.</span></div></div>
     </div>
-    <div class="edition"><span class="small-dot"></span> LOCAL-FIRST BETA <span class="edition-number">04</span></div>
+    <div class="edition"><span class="small-dot"></span> LOCAL-FIRST BETA <span class="edition-number">0.4.2</span></div>
     <div class="side-section">
       <label for="djName" class="side-label">PERFIL DE DJ</label>
       <input id="djName" class="input" type="text" maxlength="80" placeholder="Tu nombre artístico" autocomplete="off" value="">
@@ -72,7 +72,8 @@
       </select>
       <label class="checkline"><input type="checkbox" id="preserveFirst" checked> Mantener el primer tema</label>
       <div class="button-row"><button type="button" id="applySort" class="primary-btn" disabled>Proponer orden</button><button type="button" id="resetOrder" class="secondary-btn" disabled>Restaurar</button></div>
-      <p class="micro">*Solo si existe dato de energía real. La recomendación nunca escribe la playlist original.</p>
+      <div class="button-row history-controls" role="group" aria-label="Historial de cambios de la sesión"><button type="button" id="undoOrder" class="secondary-btn" disabled>↶ Deshacer</button><button type="button" id="redoOrder" class="secondary-btn" disabled>↷ Rehacer</button></div>
+      <p class="micro">*Solo si existe dato de energía real. Puedes deshacer hasta 30 pasos. Ni las propuestas ni los cambios de orden escriben en Rekordbox o en tus archivos.</p>
     </div>
     <div class="side-spacer"></div>
     <div class="sidebar-foot"><span class="privacy-icon">◎</span><div><strong>PRIVACIDAD LOCAL</strong><span>Sin cuenta · Sin nube · Audio solo local</span></div></div>

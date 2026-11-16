@@ -1,5 +1,12 @@
 # DJ Studio by NEBØA — Cambios
 
+## Beta v0.4.2-beta.1 · 16 noviembre 2026 · Historial reversible y nueva descripción de artista
+
+- Controles accesibles **Deshacer / Rehacer** para las últimas 30 reordenaciones: propuestas armónicas, ordenaciones por BPM/energía, cambios manuales y restauración. Los cambios se aplican en memoria; sin escritura en Rekordbox, USB o pistas.
+- El historial no registra operaciones idénticas, descarta la opción Rehacer cuando hay una nueva edición y se reinicia cuando se importa otra sesión o playlist.
+- Biografía y web de NEBØA refinadas: nombre público **César López**, anteriormente **Cesare il Galo**, ubicación general **España** y presentación artística en español e inglés.
+- Se incorporan pruebas de historial y de aislamiento de los datos de cada DJ. **92/92 pruebas automatizadas superadas**: 74 JS, 5 de seguridad y 13 renderizados/mediciones con audio sintético en FFmpeg.
+
 ## Beta v0.4.1-beta.2 · 16 noviembre 2026
 
 - Segunda beta pública: incluye la página de artista, biografía bilingüe (NEBØA / Cesare il Galo), contacto profesional y ejemplo ficticio de techno hipnótico.

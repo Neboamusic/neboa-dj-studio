@@ -11,8 +11,25 @@
     library:[],playlists:[],original:[],order:[],name:"",
     source:"none",selectedId:null,selectedMix:null,tab:"set",
     measurements:new Map(),libraryVersion:null,demo:false,usb:null,usbMatch:null,usbIndex:null,
-    usbTags:new Map(),usbTagBusy:false,usbTagToken:null,usbTagText:"",usbHealth:null
+    usbTags:new Map(),usbTagBusy:false,usbTagToken:null,usbTagText:"",usbHealth:null,
+    undoStack:[],redoStack:[]
   };
+  const HISTORY_LIMIT=30;
+  function rememberOrder(){
+    if(!state.order.length)return;
+    state.undoStack.push(state.order.slice());
+    if(state.undoStack.length>HISTORY_LIMIT)state.undoStack.shift();
+    state.redoStack.length=0;
+  }
+  function restoreOrderHistory(source,target){
+    if(!source.length)return;
+    target.push(state.order.slice());
+    if(target.length>HISTORY_LIMIT)target.shift();
+    state.order=source.pop();
+    if(!state.order.some(t=>t.id===state.selectedId))state.selectedId=state.order[0]?.id||null;
+    state.selectedMix=null;
+    update();
+  }
   const RECOMMENDATION_WARNING="Las propuestas requieren escuchar el audio y revisar beatgrids, cues y niveles.";
 
   function dom(tag,className="",text=null) {
@@ -58,6 +75,7 @@
     // Preserve each reference and its source position but avoid duplicate ids.
     state.original=selected.slice(0,10000);
     state.order=state.original.slice();
+    state.undoStack.length=0;state.redoStack.length=0;
     state.name=value==="__all"?"Toda la colección":state.playlists[Number(value)]?.name||"Sesión";
     state.selectedId=state.order[0]?.id||null;
     state.selectedMix=null;
@@ -72,6 +90,8 @@
     const tracks=state.order;
     byId("applySort").disabled=!tracks.length;
     byId("resetOrder").disabled=!tracks.length;
+    byId("undoOrder").disabled=!state.undoStack.length;
+    byId("redoOrder").disabled=!state.redoStack.length;
     for(const name of ["exportCSV","exportJSON","exportCues"])byId(name).disabled=!tracks.length;
     const bpm=tracks.map(t=>t.bpm).filter(x=>x!==null);
     const cues=tracks.reduce((n,t)=>n+t.cues.length,0);
@@ -160,7 +180,9 @@
   }
   function moveTrack(pos,step){
     const other=pos+step;if(other<0||other>=state.order.length)return;
+    rememberOrder();
     [state.order[pos],state.order[other]]=[state.order[other],state.order[pos]];
+    state.selectedMix=null;
     update();
   }
   function renderMix(){
@@ -569,22 +591,32 @@
     byId("searchInput").addEventListener("input",renderTracks);
     byId("applySort").addEventListener("click",()=>{
       const mode=byId("sortMode").value;
-      if(mode==="original")state.order=state.original.slice();
+      let proposed;
+      if(mode==="original")proposed=state.original.slice();
       else if(mode==="harmonic"){
         if(state.original.length>500){feedback("El orden armónico automático se limita a 500 pistas. Selecciona una playlist más pequeña para evitar un bloqueo del navegador.","error");return;}
-        state.order=E.recommendOrder(state.original,state.measurements,byId("preserveFirst").checked);
-      }
-      else{
+        proposed=E.recommendOrder(state.original,state.measurements,byId("preserveFirst").checked);
+      }else{
         const field=mode==="energy-desc"?"energy":"bpm";
         const descending=mode==="bpm-desc"||mode==="energy-desc";
         const have=state.original.filter(t=>t[field]!==null);
         const missing=state.original.filter(t=>t[field]===null);
         have.sort((a,b)=>(descending?b[field]-a[field]:a[field]-b[field])||a.sourcePosition-b.sourcePosition);
-        state.order=[...have,...missing];
+        proposed=[...have,...missing];
       }
+      if(proposed.every((t,i)=>t===state.order[i]))return; // no-op: do not waste an undo step
+      rememberOrder();
+      state.order=proposed;
       state.selectedId=state.order[0]?.id||null;state.selectedMix=null;update();
     });
-    byId("resetOrder").addEventListener("click",()=>{state.order=state.original.slice();state.selectedMix=null;update();});
+    byId("resetOrder").addEventListener("click",()=>{
+      if(state.order.every((t,i)=>t===state.original[i]))return;
+      rememberOrder();
+      state.order=state.original.slice();
+      state.selectedMix=null;update();
+    });
+    byId("undoOrder").addEventListener("click",()=>restoreOrderHistory(state.undoStack,state.redoStack));
+    byId("redoOrder").addEventListener("click",()=>restoreOrderHistory(state.redoStack,state.undoStack));
     for(const btn of document.querySelectorAll(".tab"))btn.addEventListener("click",()=>setTab(btn.dataset.tab));
     byId("audioInput").addEventListener("change",async e=>{
       const file=e.target.files?.[0];if(!file)return;

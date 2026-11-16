@@ -9,15 +9,15 @@
 
   [![MIT License](https://img.shields.io/badge/License-MIT-9b6dff)](LICENSE)
   [![CI](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/Neboamusic/neboa-dj-studio/actions/workflows/ci.yml)
-  ![Version](https://img.shields.io/badge/Release-v0.4.1--beta.2-282336)
+  ![Version](https://img.shields.io/badge/Release-v0.4.2--beta.1-282336)
   ![Privacy](https://img.shields.io/badge/Audio-local%20only-262036)
 
-  **[Launch DJ Studio](https://neboamusic.github.io/neboa-dj-studio/) · [Meet NEBØA](https://neboamusic.github.io/neboa-dj-studio/artist.html) · [Download latest beta](https://github.com/Neboamusic/neboa-dj-studio/releases/tag/v0.4.1-beta.2) · [Contribute](CONTRIBUTING.md)**
+  **[Launch DJ Studio](https://neboamusic.github.io/neboa-dj-studio/) · [Meet NEBØA](https://neboamusic.github.io/neboa-dj-studio/artist.html) · [Download latest beta](https://github.com/Neboamusic/neboa-dj-studio/releases/tag/v0.4.2-beta.1) · [Contribute](CONTRIBUTING.md)**
 </div>
 
 ---
 
-### Not another music-cloud platform.
+### Your music stays yours. Your transitions stay intentional.
 
 DJ Studio is a **local-first, open-source toolkit for DJs**. Build playlists from Rekordbox XML and CSV, explore Camelot/BPM transitions, review USB file quality and ID3/FLAC tags, and analyze loudness with an optional Python + FFmpeg engine. It gives you a plan and preserves your choices: **no music is uploaded, no device database is written, and original audio is never overwritten**.
 
@@ -27,12 +27,13 @@ DJ Studio is a **local-first, open-source toolkit for DJs**. Build playlists fro
 | Camelot + BPM guidance | ID3 / FLAC tags, without edits | Conservative gain-only normalizing |
 | Mix Coach + proposed cues | OneLibrary file presence check | New, verified FLAC / WAV / MP3 copies |
 | Portable session CSV / JSON | Metadata quality report | SHA-256 checks and batch audit CSV |
+| **Undo / redo the last 30 ordering changes** | **Original files remain untouched** | **No cloud audio uploads** |
 
 ### Quick start — run locally
 
 1. **Try the [live browser demo](https://neboamusic.github.io/neboa-dj-studio/)** for playlists, Mix Coach and read-only USB inspection, or **download the code** with GitHub's *Code → Download ZIP* and extract it. The hosted demo does **not** run the FFmpeg engine or upload music.
 2. Open `index.html` in a browser. Try the **fictional sample playlist**; no music files are required.
-3. Import an official Rekordbox XML export or your own CSV/TSV/JSON when you're ready. For a no-music trial, download the [fictional 140–145 BPM techno playlist](examples/fictional-hypnotic-techno.tsv) and import it directly. The web UI works without a server.
+3. Import an official Rekordbox XML export or your own CSV/TSV/JSON when you're ready. For a no-music trial, download the [fictional 140–145 BPM techno playlist](examples/fictional-hypnotic-techno.tsv) and import it directly. Use **Undo / Redo** in the session sidebar to reverse your last 30 rearrangements. The web UI works without a server.
 4. **Optional real loudness normalization:** install Python 3.10+, FFmpeg and FFprobe, then in the project folder run:
 
    ```bash
@@ -44,7 +45,7 @@ DJ Studio is a **local-first, open-source toolkit for DJs**. Build playlists fro
 
 > **Beta disclaimer:** Not an official AlphaTheta, Pioneer DJ or Rekordbox product. Finding `exportLibrary.db` does not imply reading or validating OneLibrary internals. Official hardware export and real-device testing are still required.
 
-**About the artist:** DJ Studio is created by **NEBØA (César López Caparrós)**, DJ and electronic music producer, **formerly known as Cesare il Galo**. His creative direction centers on dark, hypnotic, experimental techno, tension and detail. Read the [artist biography (ES/EN)](docs/ARTIST.md) or [visit the artist page](https://neboamusic.github.io/neboa-dj-studio/artist.html). Professional inquiries: [info@csarlopez.com](mailto:info@csarlopez.com).
+**The artist behind the software:** **NEBØA is César López**, a Spain-based DJ and electronic music producer previously known as **Cesare il Galo**. His sound follows the darker, hypnotic and experimental edges of techno: purposeful transitions, industrial detail and slow-building tension. DJ Studio is his open-source contribution to DJs who want control of their music and tools. Read the [artist biography in Spanish and English](docs/ARTIST.md) or [meet NEBØA](https://neboamusic.github.io/neboa-dj-studio/artist.html). Professional contact: [info@csarlopez.com](mailto:info@csarlopez.com).
 
 **Documentation:** [Artist](docs/ARTIST.md) · [Architecture & privacy](docs/ARCHITECTURE.md) · [FAQ](docs/FAQ.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Roadmap](ROADMAP-PUBLIC-BETA.md) · [Changelog](CHANGELOG.md) · [MIT License](LICENSE)
 
@@ -62,6 +63,7 @@ La biblioteca, USB, Camelot y Mix Coach funcionan abriendo `index.html`, sin cue
 - Importar **Rekordbox XML** oficial, seleccionar playlists anidadas o abrir CSV/TSV (columnas `artist, title, bpm, key, energy`, también nombres en español) y JSON de la app. Incluye una [playlist ficticia de techno hipnótico (140–145 BPM)](examples/fictional-hypnotic-techno.tsv) para probar el flujo sin música real.
 - Conservar el orden, mover pistas individualmente, ordenar por tempo o recomendar una secuencia **Camelot + BPM + energía si está disponible**.
 - Mix Coach: compatibilidad armónica, saltos de tempo y técnicas propuestas (siempre con necesidad de escucha).
+- **Historial reversible:** deshacer y rehacer hasta 30 reordenaciones manuales o automáticas; importar otra playlist limpia el historial. No guarda ni escribe sesiones sin acción explícita del usuario.
 - Cue Lab: leer Hot Cues y Memory Cues desde el XML, más **ideas por compases** cuando existan BPM y duración; no son cues verificados ni se importan a Rekordbox.
 - Niveles: RMS/pico de muestra indicativos en navegador. **Normalizar:** medición profesional LUFS integrado EBU R128 y true peak mediante FFmpeg, propuesta de ganancia lineal limitada por pico −1,5 dBTP y salida verificada en FLAC 24-bit, WAV 24-bit o MP3 320 kbps. **Lotes:** medir hasta 20 pistas y crear copias nuevas únicamente después de confirmación explícita.
 - Descargar CSV de orden, JSON portable de sesión y CSV de cues/ideas sin rutas del disco ni audio. Neutralización de fórmulas de Excel.

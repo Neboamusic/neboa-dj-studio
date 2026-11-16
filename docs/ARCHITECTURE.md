@@ -22,7 +22,7 @@ User-selected USB directory → browser read-only → inventory, tags, CSV repor
 Optional explicit audio     → Web Audio          → indicative peak / RMS
 ```
 
-No automatic scanning, collection synchronization, commercial music library, analytics, account system or third-party API.
+The browser maintains an in-memory undo/redo stack capped at 30 revisions per playlist. It records only changes to the order of track references, never source audio or files; switching the imported playlist clears the stack. No automatic scanning, collection synchronization, commercial music library, analytics, account system or third-party API.
 
 ## Optional normalization companion
 
@@ -66,4 +66,4 @@ Do not introduce telemetry, remote audio upload, background USB monitoring, cros
 
 ## Current verification
 
-64 JS tests + 5 security Python tests + 13 synthetic-audio FFmpeg tests were run locally for the v0.4.1 beta. This does **not** certify hardware compatibility, real-library performance or a public commercial service.
+74 JS tests (including reversible playlist history) + 5 security Python tests + 13 synthetic-audio FFmpeg tests were run locally for the v0.4.2 beta: **92 automated tests**. This does **not** certify hardware compatibility, real-library performance or a public commercial service.

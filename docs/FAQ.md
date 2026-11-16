@@ -8,6 +8,10 @@ No. DJ Studio can import CSV/TSV/JSON playlists and includes a synthetic sample.
 
 No. The USB inspector has read-only behavior. Detecting an OneLibrary database does **not** mean DJ Studio supports writing or validating that binary database.
 
+### Can I undo a bad proposed set order?
+
+Yes. The session sidebar includes **Undo** and **Redo** for up to 30 ordering changes, including manual track moves, automatic sorting and restoration of the original order. A new import or playlist selection clears the history. Undo changes only the temporary session state in your browser; no underlying audio, cue, USB, Rekordbox or OneLibrary data is modified.
+
 ### Does it include licensed music?
 
 No. The project includes only code, documentation and synthetic fixtures. You supply your own audio with the necessary rights.
