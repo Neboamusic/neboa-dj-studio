@@ -1,5 +1,11 @@
 # DJ Studio by NEBØA — Cambios
 
+## Beta v0.4.1-beta.2 · 16 noviembre 2026
+
+- Segunda beta pública: incluye la página de artista, biografía bilingüe (NEBØA / Cesare il Galo), contacto profesional y ejemplo ficticio de techno hipnótico.
+- 87 pruebas automatizadas superadas: 69 JavaScript, 5 Python seguridad y 13 Python con FFmpeg y audio generado para pruebas.
+- Release formal publicado en GitHub y verificado por la API oficial; sin dependencia del GitHub corporativo.
+
 ## Artista y documentación · 16 noviembre 2026
 
 - Presentación oficial de NEBØA como proyecto artístico de César López Caparrós, anteriormente Cesare il Galo, con biografía bilingüe y página de artista independiente.
