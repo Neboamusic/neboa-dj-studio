@@ -1,0 +1,44 @@
+# Temporary one-shot attempt to update About using THIS repository's ephemeral
+# GitHub Actions token, never any corporate or personal secret.
+name: NEBOA About metadata once
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/about-metadata-once.yml"
+permissions:
+  contents: write
+jobs:
+  about:
+    if: github.repository == 'Neboamusic/neboa-dj-studio'
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Set About metadata and report exact API result
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          echo "Attempting the repository's own official GitHub API token; no additional secrets."
+          gh api --method PATCH "repos/$GITHUB_REPOSITORY" \
+            -f homepage='https://neboamusic.github.io/neboa-dj-studio/' \
+            -f description='NEBØA DJ Studio — open-source DJ preparation by César López Caparrós (formerly Cesare il Galo). Local-first, Rekordbox XML, Mix Coach and safe LUFS.'
+          metadata_code=$?
+          gh api --method PUT "repos/$GITHUB_REPOSITORY/topics" \
+            -f 'names[]=dj-tools' \
+            -f 'names[]=open-source' \
+            -f 'names[]=music-technology' \
+            -f 'names[]=audio-analysis' \
+            -f 'names[]=rekordbox' \
+            -f 'names[]=ffmpeg' \
+            -f 'names[]=javascript'
+          topics_code=$?
+          echo "ABOUT_PATCH_EXIT=$metadata_code"
+          echo "TOPICS_PUT_EXIT=$topics_code"
+          echo "Result readback:"
+          gh api "repos/$GITHUB_REPOSITORY" --jq '{homepage, topics, description}' || true
+          if [[ $metadata_code -ne 0 || $topics_code -ne 0 ]]; then
+            echo "::warning::Repository-scoped GITHUB_TOKEN has insufficient GitHub administration permissions. Changes not claimed."
+          fi
+          exit 0
